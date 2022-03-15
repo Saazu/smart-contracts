@@ -17,6 +17,11 @@ contract ZombieHelper is ZombieFeeding {
       zombies[_zombieId].level++;
     }
 
+    function withdraw() external onlyOwner {
+      address _owner = address(uint160(owner()));
+      _owner.transfer(address(this).balance);
+    }
+
     function changeName(uint256 _zombieId, string calldata _newName)
         external
         aboveLevel(2, _zombieId)
