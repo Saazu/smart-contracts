@@ -5,7 +5,9 @@
 //does not return the new length anymore (it returns nothing).
 pragma solidity >=0.5.0 <0.6.0;
 
-contract ZombieFactory {
+import "./Ownable.sol"
+
+contract ZombieFactory is Ownable {
     uint256 zombieDigit = 16;
     uint256 dnaModulus = 10**16;
 
