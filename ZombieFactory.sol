@@ -10,12 +10,15 @@ import "./Ownable.sol"
 contract ZombieFactory is Ownable {
     uint256 zombieDigit = 16;
     uint256 dnaModulus = 10**16;
+    uint cooldownTime = 1 days;
 
     event ZombieCreated(uint256 zombieId, string name, uint256 dna);
 
     struct Zombie {
         string name;
-        uint256 dna;
+        uint dna;
+        uint32 level;
+        uint32 readyTime;
     }
 
     Zombie[] public zombies;
@@ -31,7 +34,7 @@ contract ZombieFactory is Ownable {
     function _createZombie(string memory _name, uint256 _dna) internal {
         //minus 1 because function returns length of array and we want to use id
         //for array indexing
-        uint256 id = zombies.push(Zombie(_name, _dna)) - 1;
+        uint256 id = zombies.push(Zombie(_name, _dna, 1, uint32(now + cooldownTime))) - 1;
         zombieToOwner[id] = msg.sender;
         ownerZombieCount[msg.sender]++;
         emit ZombieCreated(id, _name, _dna);
