@@ -2,7 +2,7 @@
 
 pragma solidity >=0.5.0 <0.6.0;
 
-import "./zombiehelper.sol";
+import "./Zombiehelper.sol";
 
 contract ZombieAttack is ZombieHelper {
     uint256 randNonce = 0;
@@ -16,7 +16,7 @@ contract ZombieAttack is ZombieHelper {
 
     function attack(uint256 _zombieId, uint256 _targetId)
         external
-        ownerOf(_zombieId)
+        onlyOwnerOf(_zombieId)
     {
         Zombie storage myZombie = zombies[_zombieId];
         Zombie storage enemyZombie = zombies[_targetId];

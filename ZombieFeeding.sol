@@ -1,6 +1,6 @@
 pragma solidity >=0.5.0 <0.6.0;
 
-import "./ZombieFactory";
+import "./ZombieFactory.sol";
 
 contract KittyInterface {
     function getKitty(uint256 _id)
@@ -23,12 +23,12 @@ contract KittyInterface {
 contract ZombieFeeding is ZombieFactory {
     KittyInterface kittyContract = KittyInterface(ckAddress);
 
-    modifier ownerOf(_zombieId) {
+    modifier onlyOwnerOf(_zombieId) {
         require(msg.sender == zombies[_zombieId]);
         _;
     }
 
-    function setKittyContractAddress(address _address) external onlyOwner {
+    function setKittyContractAddress(address _address) external onlyOwnerOf {
         kittyContract = KittyInterface(_address);
     }
 
@@ -42,7 +42,7 @@ contract ZombieFeeding is ZombieFactory {
 
     function feedAndMultiply(uint256 _zombieId, uint256 _targetDna)
         internal
-        ownerOf(_zombieId)
+        onlyOwnerOf(_zombieId)
     {
         Zombie storage myZombie = zombies[_zombieId];
         require(_isReady(myZombie));
